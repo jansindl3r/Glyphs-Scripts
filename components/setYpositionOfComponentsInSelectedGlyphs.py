@@ -1,11 +1,16 @@
 #MenuTitle: Set Y position of components in selected glyphs
+
+__doc__="""
+
+Sets component's Y position in selected glyphs
+
+"""
+
 import vanilla 
 
-font = Glyphs.font
-selected_layers = [layer.layerId for layer in font.selectedLayers]
 
 
-def process_glyph(glyph, value, process_all_layers):
+def process_glyph(glyph, value, process_all_layers, selected_layers):
 
 	if process_all_layers:
 		layers = glyph.layers
@@ -32,12 +37,15 @@ class Dialog:
 		self.window.open()
 
 	def setYPosition(self, sender):
+		font = Glyphs.font
+		selected_layers = [layer.layerId for layer in font.selectedLayers]
+
 		value = self.window.input_field.get()
 		if value:
 			value = float(value)
 			for glyph in font.glyphs:
 				if glyph.selected:
-					process_glyph(glyph, value, self.window.process_all_layers.get())
+					process_glyph(glyph, value, self.window.process_all_layers.get(), selected_layers)
 
 	def on_input(self, sender):
 		value = sender.get()

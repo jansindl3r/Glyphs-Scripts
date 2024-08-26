@@ -1,4 +1,10 @@
-#MenuTitle: Save stroked shapes in .stroke-source layer
+#MenuTitle: Save Stroked Shapes to a Layer
+
+__doc__="""
+
+Saves the stroked shapes to a new layer with the suffix ".stroke-source". If this layer already exists, it will be used to generate the master layer.
+
+"""
 
 font = Glyphs.font  # Get the current font
 for glyph in font.glyphs:

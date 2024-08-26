@@ -1,6 +1,12 @@
-#MenuTitle: Copy position and settings of smart componennts
+#MenuTitle: Copy Position & Settings of Smart Components
+
+__doc__="""
+
+Copies the position and settings of smart components from a selected glyph to other selected glyphs. You select input glyph and then select either one or more glyphs to paste the components to.
+
+"""
+
 import vanilla
-import re
 
 def sanitize_component_name(name):
 	return f"c_{hash(name)}"
