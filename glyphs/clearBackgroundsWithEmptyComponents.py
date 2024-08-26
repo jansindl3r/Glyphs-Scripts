@@ -1,4 +1,4 @@
-# Menu Title: Clear Backgrounds with Empty Components
+# MenuTitle: Clear Backgrounds with Empty Components
 
 font = Glyphs.font
 glyphs = font.glyphs
