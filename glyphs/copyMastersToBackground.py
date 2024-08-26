@@ -1,4 +1,10 @@
-#MenuTitle: Copy masters to background
+#MenuTitle: Copy masters to Background
+
+__doc__="""
+
+Copies masters to background
+
+"""
 
 font = Glyphs.font
 selected_glyphs = [l.parent for l in font.selectedLayers]

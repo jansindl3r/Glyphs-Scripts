@@ -1,4 +1,10 @@
-#MenuTitle: glyphs with transformed components
+#MenuTitle: Glyphs with Transformed Components
+
+__doc__="""
+
+Opens a tab with glyphs that have transformed components.
+
+"""
 
 font = Glyphs.font
 

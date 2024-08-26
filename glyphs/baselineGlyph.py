@@ -1,5 +1,11 @@
 #MenuTitle: Baseline Glyph
 
+__doc__="""
+
+Creates a glyph that shows the vertical metrics.
+
+"""
+
 font = Glyphs.font
 try:
 	font.glyphs.append(GSGlyph('baseline'))
