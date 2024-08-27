@@ -36,6 +36,7 @@ class Dialog:
 		selected_layer = font.selectedLayers[0]
 		selected_glyph = selected_layer.parent
 		self.selected_layer = selected_layer
+
 		
 		if not getattr(self.window, "position_label", None):
 			y = 35
@@ -64,11 +65,26 @@ class Dialog:
 			y += 20
 		
 		self.window.select_glyph._nsObject.setTitle_(f"Selected Glyph: \"{selected_glyph.name}\"")
-		if not getattr(self.window, "paste_selected", None):
-			self.window.paste_selected = vanilla.Button((15, y + 20, -15, 20), "Paste Selected", sizeStyle="small", callback=self.paste_selected)
+		
+		# y += 20
+		# if getattr(self.window, "paste_all_layers", None):
+
+		# 	pos_size = list(self.window.paste_all_layers.getPosSize())
+		# 	pos_size[1] = y
+		# 	self.window.paste_all_layers.setPosSize(pos_size)
+		# else:
+		# 	self.window.paste_all_layers = vanilla.CheckBox((15, y, -15, 20), "Paste All Layers", sizeStyle="small", value=False)
+
+		y += 20
+		if getattr(self.window, "paste_selected", None):
+			pos_size = list(self.window.paste_selected.getPosSize())
+			pos_size[1] = y
+			self.window.paste_selected.setPosSize(pos_size)
+		else:
+			self.window.paste_selected = vanilla.Button((15, y, -15, 20), "Paste Selected", sizeStyle="small", callback=self.paste_selected)
 		
 		pos_size = list(self.window.getPosSize())
-		pos_size[-1] = y + 60
+		pos_size[-1] = y + 40
 		self.window.setPosSize(pos_size)
 
 	def paste_selected(self, sender):
@@ -77,7 +93,8 @@ class Dialog:
 		selected_layer_components_map = {}
 		for component in self.selected_layer.components:
 			selected_layer_components_map.setdefault(component.name, []).append(component)
-			
+		
+
 		for layer in font.selectedLayers:
 			for component in layer.components:
 				sanitized = sanitize_component_name(component.name)
@@ -89,6 +106,7 @@ class Dialog:
 
 				if component.name in selected_layer_components_map:
 					if getattr(self.window, f"component_{sanitized}_position").get():
+						component.automaticAlignment = False
 						component.position = selected_layer_components_map[component.name][duplicate_index].position
 
 					if getattr(self.window, f"component_{sanitized}_settings").get():
