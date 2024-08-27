@@ -9,10 +9,12 @@ Bakes smart stuff and exports the current font to UFO, OTF and TTF using glyphsL
 import subprocess
 import vanilla
 import re
+import traceback
 from vanilla import dialogs
 
 from GlyphsApp import GSScriptingHandler
 from time import sleep
+
 
 try:
 	import glyphsLib
@@ -65,6 +67,10 @@ def rename_font(font, appendix):
 		new_glyph_name = rename_bracket(glyph.name, appendix)
 		if new_glyph_name:
 			glyphs_to_rename.append((glyph.name, new_glyph_name))
+		for component in glyph.components:
+			new_component_name = rename_bracket(component.baseGlyph, appendix)
+			if new_component_name:
+				component.baseGlyph = new_component_name
 
 	for old_name, new_name in glyphs_to_rename:
 		font.renameGlyph(old_name, new_name)
@@ -105,54 +111,75 @@ class Dialog:
 
 	def export(self, sender):
 		font = Glyphs.font.copy()
+		self.window.export_button.enable(False)
+		self.window.export_button._nsObject.setTitle_("Exporting...")
 
-		for glyph in font.glyphs:
-			for layer in glyph.layers:
-				if not (layer.isMasterLayer or layer.isSpecialLayer):
-					continue
-				layer.decomposeCorners()
-				for s, shape in list(enumerate(layer.shapes[::1]))[::-1]:
-					if shape.__class__.__name__ == "GSPath":
-						expanded_stroke = shape.expandedStroke()
-						if len(expanded_stroke):
-							del layer.shapes[s]
-							for path in expanded_stroke[::-1]:
-								layer.paths.append(path.copy())
-
-		export_paths = []
-		if self.window.export_ttf.get():
-			export_paths.append(self.export_folder/"ttf")
-		if self.window.export_otf.get():
-			export_paths.append(self.export_folder/"otf")
-		if self.window.export_variable.get():
-			export_paths.append(self.export_folder/"variable_ttf")
+		try:
+			for glyph in font.glyphs:
+				for layer in glyph.layers:
+					if not (layer.isMasterLayer or layer.isSpecialLayer):
+						continue
+					layer.decomposeCorners()
+					for s, shape in list(enumerate(layer.shapes[::1]))[::-1]:
+						if shape.__class__.__name__ == "GSPath":
+							expanded_stroke = shape.expandedStroke()
+							if len(expanded_stroke):
+								del layer.shapes[s]
+								for path in expanded_stroke[::-1]:
+									layer.paths.append(path.copy())
 			
-		for path in export_paths:
-			if not path.exists():
-				path.mkdir(parents=True)
+			for glyph in font.glyphs:
+				for layer in glyph.layers:
+					if not (layer.isMasterLayer or layer.isSpecialLayer):
+						continue
+					for component in layer.components:
+						if component.attributes.get("reversePaths", False):
+							component.decompose()
+						if component.component and not component.component.export:
+							component.decompose()
 
-		with NamedTemporaryFile(suffix='.glyphs', delete=True) as temp_file:
-			font.save(temp_file.name)
-			ufo_paths, designspace_path = build_masters(temp_file.name, self.export_folder/"ufo", minimal=True)
-			designspace = DesignSpaceDocument.fromfile(designspace_path)
-			bracket_layer_appendix = self.window.bracket_layer_glyph_appendix.get()
-			rename_doc(designspace, bracket_layer_appendix)
-			for ufo_path in ufo_paths:
-				ufo = Font.open(self.export_folder/"ufo"/ufo_path)
-				rename_font(ufo, bracket_layer_appendix)
-				ufo.save()
-			instantiator = Instantiator.from_designspace(designspace)
-			for instance in designspace.instances:
-				ufo = instantiator.generate_instance(instance)
-				filename = Path(instance.filename).stem
-				if self.window.export_ttf.get():
-					compileTTF(ufo).save(self.export_folder/"ttf"/f"{filename}.ttf")
-				if self.window.export_otf.get():
-					compileOTF(ufo).save(self.export_folder/"otf"/f"{filename}.otf")
-
+			export_paths = []
+			if self.window.export_ttf.get():
+				export_paths.append(self.export_folder/"ttf")
+			if self.window.export_otf.get():
+				export_paths.append(self.export_folder/"otf")
 			if self.window.export_variable.get():
-				for key, font in compileVariableTTFs(designspace, optimizeGvar=True).items():
-					font.save(self.export_folder/"variable_ttf"/f"{key}.ttf")
+				export_paths.append(self.export_folder/"variable_ttf")
+				
+			for path in export_paths:
+				if not path.exists():
+					path.mkdir(parents=True)
+
+			with NamedTemporaryFile(suffix='.glyphs', delete=True) as temp_file:
+				font.save(temp_file.name)
+				ufo_paths, designspace_path = build_masters(temp_file.name, self.export_folder/"ufo", minimal=True)
+				designspace = DesignSpaceDocument.fromfile(designspace_path)
+				bracket_layer_appendix = self.window.bracket_layer_glyph_appendix.get()
+				rename_doc(designspace, bracket_layer_appendix)
+				for ufo_path in ufo_paths:
+					ufo = Font.open(self.export_folder/"ufo"/ufo_path)
+					rename_font(ufo, bracket_layer_appendix)
+					ufo.save()
+
+				instantiator = Instantiator.from_designspace(designspace)
+				for instance in designspace.instances:
+					ufo = instantiator.generate_instance(instance)
+					filename = Path(instance.filename).stem
+					if self.window.export_ttf.get():
+						compileTTF(ufo).save(self.export_folder/"ttf"/f"{filename}.ttf")
+					if self.window.export_otf.get():
+						compileOTF(ufo).save(self.export_folder/"otf"/f"{filename}.otf")
+
+				if self.window.export_variable.get():
+					for key, font in compileVariableTTFs(designspace, optimizeGvar=True).items():
+						font.save(self.export_folder/"variable_ttf"/f"{key}.ttf")
+		except Exception as e:
+			Message("Error", f"Something went wrong: {e}", OKButton=None)
+			print('\n'.join(traceback.format_tb(e.__traceback__)))
+		
+		self.window.export_button.enable(True)
+		self.window.export_button._nsObject.setTitle_("Export")
+	
 
 Dialog()
 
