@@ -12,5 +12,6 @@
 | | Clear Backgrounds with Empty Components |  |
 | | Copy masters to Background | Copies masters to background |
 | | Glyphs with Transformed Components | Opens a tab with glyphs that have transformed components. |
+| | Remove empty paths from selected glyphs | Removes empty paths from selected glyphs. |
 | | Save Stroked Shapes to a Layer | Saves the stroked shapes to a new layer with the suffix ".stroke-source". If this layer already exists, it will be used to generate the master layer. |
 | | Tab with open corner glyphs |  |
