@@ -46,6 +46,7 @@ class Dialog:
 				for layer in glyph.layers:
 					for component in layer.components:
 						if re.match(pattern, str(component.component.name)):
+							component.automaticAlignment = False
 							component.decompose()
 		except re.error as e:
 			Message("Invalid Regex Pattern")

@@ -7,6 +7,7 @@
 | __Export__ |
 | | Export with GlyphsLib | Bakes smart stuff and exports the current font to UFO, OTF and TTF using glyphsLib |
 | __Font__ |
+| | Check Italics Have Same Width | Checks if glyphs on Italic, Slant or actually any other has the same width as their parent layer. |
 | | yMin & yMax | Gets lowest and highest Y values of all masters in the font. |
 | __Glyphs__ |
 | | Baseline Glyph | Creates a glyph that shows the vertical metrics. |
