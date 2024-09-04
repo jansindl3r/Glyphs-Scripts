@@ -4,12 +4,9 @@ import re
 base = Path(__file__).parent
 
 with open(base / 'README.md', 'w') as readme_file:
-    readme_file.write('| Folder | Script | Description |\n')
-    readme_file.write('| --- | --- | --- |\n')
     for folder in sorted(base.iterdir(), key=lambda x: x.name):
         if folder.is_dir() and not folder.name.startswith('.'):
-            readme_file.write(f'| __{folder.stem.capitalize()}__ |')
-            readme_file.write('\n')
+            readme_file.write(f'\n # {folder.stem.capitalize()} \n')
             for script_path in sorted(folder.glob("*.py"), key=lambda x: x.name):
                 if script_path.stem.startswith("__"):
                     continue
@@ -17,6 +14,7 @@ with open(base / 'README.md', 'w') as readme_file:
                 doc_pattern = r'__doc__\s*=\s*"""(.*?)"""'
                 doc = re.search(doc_pattern, script_path.read_text(), re.DOTALL)
                 doc_replaced = doc.group(1).strip().replace("\n", " ") if doc else ""
-                readme_file.write(f'| | {title.group(1)} | {doc_replaced} |')
-                readme_file.write('\n')
+                readme_file.write(f'- *{title.group(1)}*\n')
+                if doc_replaced:
+                    readme_file.write(f'  - {doc_replaced}\n')
             
