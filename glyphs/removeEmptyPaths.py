@@ -1,8 +1,8 @@
-#MenuTitle: Remove empty paths from selected glyphs
+# MenuTitle: Remove empty paths from selected glyphs
 
-__doc__="""
+__doc__ = """
 
-Removes empty paths from selected glyphs.
+Sometimes paths have 0 nodes
 
 """
 
