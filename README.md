@@ -2,6 +2,7 @@
  # Anchors 
 - *Copy Anchors from Layer* 
 - *Insert Preliminary Carets* 
+- *Start Anchor Indexes From 1* 
 
  # Components 
 - *Copy Position & Settings of Smart Components:* Copies the position and settings of smart components from a selected glyph to other selected glyphs. You select input glyph and then select either one or more glyphs to paste the components to.

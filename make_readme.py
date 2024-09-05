@@ -24,5 +24,5 @@ with open(base / "GLYPHS_README.md", "w+") as glyphs_readme_file:
     for l, line in enumerate(lines):
         match = re.match(r".*#\ ?(.*)", line)
         if match:
-            lines[l] = f"**{match.group(1).strip()}**"
+            lines[l] = f"\\n**{match.group(1).strip()}**\\n"
     glyphs_readme_file.write("Scripts by Jan Šindler\\n" + "\\n".join(lines))

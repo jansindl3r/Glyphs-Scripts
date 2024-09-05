@@ -10,9 +10,6 @@ def correct_italic_offset(angle, x_height):
     return x_height * tan(angle_rads)
 
 
-offset_value = x_height / 2 * tan(angle_rads)
-
-
 class CopyAnchorsDialog:
     def __init__(self):
         self.layerNames = [layer.name for layer in Glyphs.font.masters]

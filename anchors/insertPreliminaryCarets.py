@@ -3,8 +3,10 @@
 selected_glyphs = [layer.parent for layer in Glyphs.font.selectedLayers]
 for glyph in selected_glyphs:
     number_of_carets = glyph.name.count("_")
-    if number_of_carets == 0 and glyph.name in ["fl", "fi"]:
+    if glyph.name in ["fl", "fi"]:
         number_of_carets = 1
+    if glyph.name in ["ellipsis"]:
+        number_of_carets = 2
     for layer in glyph.layers:
         if layer.isMasterLayer or layer.isSpecialLayer:
             layer.anchors = [
