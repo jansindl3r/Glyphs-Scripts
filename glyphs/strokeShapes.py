@@ -2,7 +2,7 @@
 
 __doc__ = """
 
-Saves the stroked shapes to a new layer with the suffix ".stroke-source". If this layer already exists, it will be used to generate the master layer.
+Saves the stroked shapes to a new layer with the suffix `.stroke-source`. If this layer already exists, it will be used to generate the master layer.
 
 """
 
