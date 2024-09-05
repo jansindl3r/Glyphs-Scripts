@@ -1,4 +1,8 @@
 
+ # Anchors 
+- *Copy Anchors from Layer* 
+- *Insert Preliminary Carets* 
+
  # Components 
 - *Copy Position & Settings of Smart Components:* Copies the position and settings of smart components from a selected glyph to other selected glyphs. You select input glyph and then select either one or more glyphs to paste the components to.
 - *Decompose components in selected glyphs by pattern:* Removes components from selected glyphs that match a regex pattern.
