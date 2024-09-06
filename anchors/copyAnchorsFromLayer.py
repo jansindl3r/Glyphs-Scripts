@@ -55,9 +55,12 @@ class CopyAnchorsDialog:
             glyph_layer_b.anchors = []
 
             for anchor in glyph_layer_a.anchors:
+                offset_value_from = 0
+                offset_value_to = 0
+
                 offset_value_from = correct_italic_offset(
                     layer_from.italicAngle, layer_from.xHeight / 2
-                )  # italic correction
+                )
                 offset_value_to = correct_italic_offset(
                     layer_to.italicAngle, layer_to.xHeight / 2
                 )  # italic correction
