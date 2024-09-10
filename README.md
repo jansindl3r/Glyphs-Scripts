@@ -11,6 +11,8 @@
 
  # Font 
 - *Check Italics Have Same Width:* Checks if glyphs on Italic, Slant or actually any other has the same width as their parent layer.
+- *Copy Stems from Master:* Copies stems from one master to another.
+- *Spread Master Parameters:* Copies custom parameters from one master to all other masters.
 - *yMin & yMax:* Gets lowest and highest Y values of all masters in the font.
 
  # Glyphs 
