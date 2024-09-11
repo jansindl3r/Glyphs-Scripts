@@ -40,7 +40,7 @@ class Dialog:
         for custom_parameter in Glyphs.font.masters[
             self.w.master_from.get()
         ].customParameters:
-            name = f"parameter_{custom_parameter.name}"
+            name = f"parameter_{custom_parameter.name}".replace(" ", "___")
             self.parameter_names.append(name)
             parameters_rules_horizontal.append(f"H:|-[{name}]-|")
             parameters_rules_vertical += f"[{name}]"
@@ -73,7 +73,7 @@ class Dialog:
                 continue
             for parameter_name in self.parameter_names:
                 if getattr(self.w, parameter_name).get():
-                    parameter_key = parameter_name.replace("parameter_", "")
+                    parameter_key = parameter_name.replace("parameter_", "").replace("___", " ")
                     parameter = master_from.customParameters[parameter_key]
                     master_to.customParameters[parameter_key] = parameter
 
