@@ -23,4 +23,4 @@
 - *Glyphs with Transformed Components* 
 - *Remove empty paths from selected glyphs:* Sometimes paths have 0 nodes
 - *Save Stroked Shapes to a Layer:* Saves the stroked shapes to a new layer with the suffix `.stroke-source`. If this layer already exists, it will be used to generate the master layer.
-- *Tab with open corner glyphs* 
+- *Tab with Glyphs that have an Overlap:* Finds glyphs glyphs in given layer that have an overlap.
