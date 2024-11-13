@@ -37,7 +37,6 @@ class Dialog:
 			if len(widths) != 1:
 				for layer in layers_to_check:
 					layers_to_open_in_tab.append(glyph_layer.layers[layer.id])
-		
 		Glyphs.font.newTab(layers_to_open_in_tab)
 
 Dialog()
