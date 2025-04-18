@@ -9,6 +9,9 @@
 - *Decompose components in selected glyphs by pattern:* Removes components from selected glyphs that match a regex pattern.
 - *Set Y position of components in selected glyphs* 
 
+ # Export 
+- *Export in batch all relevant formats in separate folders* 
+
  # Font 
 - *Check Italics Have Same Width:* Checks if glyphs on Italic, Slant or actually any other has the same width as their parent layer.
 - *Copy Stems from Master:* Copies stems from one master to another.
@@ -19,8 +22,8 @@
 - *Baseline Glyph:* Creates a glyph that shows the vertical metrics.
 - *Check Glyphs Width Against a Glyph:* Usecase: Check if all tabular numbers (`*.\.tf.*`) have the same width as zero.tf.
 - *Clear Backgrounds with Empty Components* 
+- *Copy Data from Master* 
 - *Copy masters to Background* 
-- *Copy Metrics from Master* 
 - *Glyphs with Transformed Components* 
 - *Remove empty paths from selected glyphs:* Sometimes paths have 0 nodes
 - *Save Stroked Shapes to a Layer:* Saves the stroked shapes to a new layer with the suffix `.stroke-source`. If this layer already exists, it will be used to generate the master layer.
