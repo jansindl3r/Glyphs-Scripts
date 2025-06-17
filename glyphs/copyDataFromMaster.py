@@ -1,8 +1,8 @@
 # MenuTitle: Copy Data from Master
 
 import GlyphsApp
-from vanilla import FloatingWindow, PopUpButton, Button, TextBox, CheckBox
-from math import radians, tan
+from vanilla import FloatingWindow, PopUpButton, Button, TextBox, CheckBox, EditText
+from Foundation import NSAffineTransform
 
 
 
@@ -19,20 +19,23 @@ class Dialog:
 		self.w.layer_from = PopUpButton("auto", self.layerNames, sizeStyle="small")
 		self.w.layer_to_label = TextBox("auto", "Destination Layer", sizeStyle="small")
 		self.w.layer_to = PopUpButton("auto", self.layerNames, sizeStyle="small")
-
-		self.w.copyShapes = CheckBox("auto", "Copy Shapes", sizeStyle="small")
+		self.w.x_offset_label = TextBox("auto", "X Offset", sizeStyle="small")
+		self.w.x_offset = EditText("auto", "0", sizeStyle="small")
+		self.w.copy_shapes = CheckBox("auto", "Copy Shapes", sizeStyle="small")
 
 		self.w.copyButton = Button(
 			"auto", "Copy Data", callback=self.copyAnchors, sizeStyle="small"
 		)
 
 		rules = [
-			"V:|-[layer_from_label][layer_from]-[layer_to_label][layer_to]-[copyShapes]-20-[copyButton]-|",
+			"V:|-[layer_from_label][layer_from]-[layer_to_label][layer_to]-[x_offset_label][x_offset]-[copy_shapes]-20-[copyButton]-|",
 			"H:|-[layer_from_label]-|",
 			"H:|-[layer_from]-|",
 			"H:|-[layer_to_label]-|",
 			"H:|-[layer_to]-|",
-			"H:|-[copyShapes]-|",
+			"H:|-[x_offset_label]-|",
+			"H:|-[x_offset]-|",
+			"H:|-[copy_shapes]-|",
 			"H:|-[copyButton]-|",
 		]
 		metrics = {}
@@ -57,11 +60,23 @@ class Dialog:
 			dest_glyph_layer.LSB = source_glyph_layer.LSB
 			dest_glyph_layer.width = source_glyph_layer.width
 			# If the checkbox is checked, copy shapes too
-			if self.w.copyShapes.get():
+			if self.w.copy_shapes.get():
+				dest_glyph_layer.background.clear()
+				dest_glyph_layer.guides.clear()
 				for shape in source_glyph_layer.shapes:
-					dest_glyph_layer.shapes.append(shape.copy())
+					shape = shape.copy()
+					if shape.__class__.__name__ == "GSComponent":
+						setattr(shape, "automaticAlignment", False)
+					dest_glyph_layer.shapes.append(shape)
 				for anchor in source_glyph_layer.anchors:
 					dest_glyph_layer.anchors.append(anchor.copy())
+				translate_x = float(self.w.x_offset.get())
+				if translate_x:
+					transform = NSAffineTransform.transform()
+					transform.translateXBy_yBy_(translate_x, 0)
+					for path in dest_glyph_layer.paths:
+						path.applyTransform(transform.transformStruct())
+
 
 # Run the dialog
 Dialog()

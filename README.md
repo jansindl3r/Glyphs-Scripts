@@ -19,10 +19,11 @@
 - *Baseline Glyph:* Creates a glyph that shows the vertical metrics.
 - *Check Glyphs Width Against a Glyph:* Usecase: Check if all tabular numbers (`*.\.tf.*`) have the same width as zero.tf.
 - *Clear Backgrounds with Empty Components* 
+- *Copy Data from Master* 
 - *Copy masters to Background* 
-- *Copy Metrics from Master* 
 - *Glyphs with Transformed Components* 
 - *Remove empty paths from selected glyphs:* Sometimes paths have 0 nodes
 - *Save Stroked Shapes to a Layer:* Saves the stroked shapes to a new layer with the suffix `.stroke-source`. If this layer already exists, it will be used to generate the master layer.
+- *Tab with glyphs having this glyph in bg:* Finds glyphs in the font that have the current glyph in their background.
 - *Tab with Glyphs that have an Overlap:* Finds glyphs glyphs in given layer that have an overlap.
 - *Tab with Not Matching Width Masters* 
