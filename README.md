@@ -9,6 +9,9 @@
 - *Decompose components in selected glyphs by pattern:* Removes components from selected glyphs that match a regex pattern.
 - *Set Y position of components in selected glyphs* 
 
+ # Export 
+- *Export in batch all relevant formats in separate folders* 
+
  # Font 
 - *Check Italics Have Same Width:* Checks if glyphs on Italic, Slant or actually any other has the same width as their parent layer.
 - *Copy Stems from Master:* Copies stems from one master to another.
